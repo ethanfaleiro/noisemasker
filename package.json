@@ -1,0 +1,48 @@
+{
+  "name": "noise-masker",
+  "version": "1.0.0",
+  "description": "Cross-platform white / pink / brown noise masking app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev":   "electron . --dev",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:all": "electron-builder --win --mac"
+  },
+  "build": {
+    "appId": "com.noisemasker.app",
+    "productName": "Noise Masker",
+    "asar": true,
+    "directories": {
+      "output":         "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": [
+        { "target": "dmg",  "arch": ["x64", "arm64"] }
+      ],
+      "category": "public.app-category.utilities",
+      "icon": "assets/icon.icns",
+      "darkModeSupport": true
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false
+    }
+  },
+  "devDependencies": {
+    "electron":         "^28.3.3",
+    "electron-builder": "^24.13.3"
+  }
+}

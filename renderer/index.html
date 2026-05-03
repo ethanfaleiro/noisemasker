@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tight CSP: scripts only from same origin (allows noise-worklet.js) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+  <title>Noise Masker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- ─── Custom Title Bar (frameless window) ─────────────────────────────── -->
+  <div class="titlebar" id="titlebar">
+    <span class="titlebar-title">NOISE MASKER</span>
+    <div class="titlebar-controls">
+      <button class="tb-btn tb-minimize" id="btnMinimize" title="Minimise">
+        <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn tb-close" id="btnClose" title="Close to tray">
+        <svg viewBox="0 0 12 12">
+          <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── App ─────────────────────────────────────────────────────────────── -->
+  <div class="app-container">
+
+    <!-- Status chip -->
+    <div class="status-row">
+      <div class="status-dot" id="statusDot"></div>
+      <span class="status-text" id="statusText">Ready</span>
+    </div>
+
+    <!-- ── Main Card ──────────────────────────────────────────────────────── -->
+    <div class="card">
+
+      <!-- Noise type selector -->
+      <div class="field">
+        <label class="field-label" for="noiseType">Noise Type</label>
+        <div class="select-wrap">
+          <select id="noiseType" class="select">
+            <option value="white">White Noise</option>
+            <option value="pink" selected>Pink Noise</option>
+            <option value="brown">Brown Noise (Red)</option>
+            <option value="blue">Blue Noise</option>
+            <option value="violet">Violet Noise</option>
+          </select>
+          <svg class="select-caret" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ── Power Button ──────────────────────────────────────────────────── -->
+      <div class="power-area">
+        <!-- Outer animated ring -->
+        <div class="ring ring-outer" id="ringOuter"></div>
+        <!-- Inner animated ring -->
+        <div class="ring ring-inner" id="ringInner"></div>
+
+        <button class="power-btn" id="powerBtn" aria-label="Toggle noise playback">
+          <!-- Power icon: circle arc + vertical line -->
+          <svg class="power-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <line x1="50" y1="18" x2="50" y2="50"
+                  stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M32 28 A26 26 0 1 0 68 28"
+                  stroke="currentColor" stroke-width="7" fill="none"
+                  stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- ── Volume ─────────────────────────────────────────────────────────── -->
+      <div class="field">
+        <div class="field-row">
+          <label class="field-label" for="volSlider">Volume</label>
+          <span class="vol-readout" id="volReadout">10%</span>
+        </div>
+        <div class="slider-track">
+          <div class="slider-fill" id="sliderFill"></div>
+          <input type="range" id="volSlider" class="slider"
+                 min="0" max="100" value="10" step="1"
+                 aria-label="Volume">
+        </div>
+      </div>
+
+    </div><!-- /card -->
+
+    <!-- ── Theme Controls ─────────────────────────────────────────────────── -->
+    <div class="theme-bar">
+      <span class="theme-label">Accent</span>
+      <input type="color" id="accentPicker" class="color-swatch" value="#4fc3f7" title="Accent colour">
+
+      <span class="theme-label" style="margin-left:10px;">Background</span>
+      <input type="color" id="bgPicker" class="color-swatch" value="#0d1b2a" title="Background colour">
+
+      <button class="reset-btn" id="resetTheme" title="Reset theme">↺</button>
+    </div>
+
+    <!-- Footer tip -->
+    <p class="footer-tip">Audio continues when the window is hidden · <kbd>Space</kbd> to toggle</p>
+
+  </div><!-- /app-container -->
+
+  <script src="renderer.js"></script>
+</body>
+</html>
